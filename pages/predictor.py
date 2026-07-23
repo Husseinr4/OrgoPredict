@@ -10,7 +10,7 @@ from utils.helpers import (
     load_reactions,
     get_categories,
     get_substrates,
-    get_reagents,
+    get_reagents_for_substrate,
 )
 
 from utils.predictor import (
@@ -60,7 +60,11 @@ substrate = st.selectbox(
 
 reagent = st.selectbox(
     "Reagent",
-    get_reagents(reactions, category),
+    get_reagents_for_substrate(
+        reactions,
+        category,
+        substrate,
+    ),
 )
 
 st.divider()
