@@ -98,15 +98,19 @@ def get_substrates(reactions, category):
 # --------------------------------------------------
 # Find available reagents
 # --------------------------------------------------
-def get_reagents(reactions):
+# --------------------------------------------------
+# Find available reagents for one category
+# --------------------------------------------------
+def get_reagents(reactions, category):
     """
-    Returns a sorted list of all reagents stored in
-    the reaction database.
+    Returns only the reagents that belong to the
+    selected substrate category.
     """
 
     reagents = {
         reaction["reagent"]
         for reaction in reactions
+        if reaction["substrate_category"] == category
     }
 
     return sorted(reagents)

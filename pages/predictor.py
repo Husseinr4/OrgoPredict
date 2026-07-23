@@ -1,19 +1,6 @@
 """
 ====================================================
 OrgoPredict - Reaction Predictor
-
-This page allows users to:
-
-1. Select a substrate category.
-2. Select a substrate.
-3. Select a reagent.
-4. Predict the reaction product.
-
-The prediction data is loaded from:
-data/reactions.json
-
-The prediction logic is handled by:
-utils/predictor.py
 ====================================================
 """
 
@@ -23,25 +10,23 @@ from utils.helpers import (
     load_reactions,
     get_categories,
     get_substrates,
-    get_reagents
+    get_reagents,
 )
 
 from utils.predictor import (
     predict_reaction,
-    format_prediction
+    format_prediction,
 )
 
-
-# --------------------------------------------------
-# Load reaction database
-# --------------------------------------------------
+# ----------------------------------------
+# Load database
+# ----------------------------------------
 
 reactions = load_reactions()
 
-
-# --------------------------------------------------
-# Page Title
-# --------------------------------------------------
+# ----------------------------------------
+# Page
+# ----------------------------------------
 
 st.title("🧪 Reaction Predictor")
 
@@ -51,111 +36,79 @@ st.write(
 
 st.divider()
 
-
-# --------------------------------------------------
-# User selections
-# --------------------------------------------------
+# ----------------------------------------
+# Category
+# ----------------------------------------
 
 category = st.selectbox(
     "Substrate Category",
-    get_categories(reactions)
+    get_categories(reactions),
 )
 
+# ----------------------------------------
+# Substrate
+# ----------------------------------------
 
 substrate = st.selectbox(
     "Substrate",
-    get_substrates(reactions, category)
+    get_substrates(reactions, category),
 )
 
+# ----------------------------------------
+# Reagent
+# ----------------------------------------
 
 reagent = st.selectbox(
     "Reagent",
-    get_reagents(reactions)
+    get_reagents(reactions, category),
 )
-
 
 st.divider()
 
-
-# --------------------------------------------------
-# Predict Button
-# --------------------------------------------------
+# ----------------------------------------
+# Predict
+# ----------------------------------------
 
 if st.button("🔬 Predict Product", use_container_width=True):
 
     reaction = predict_reaction(
         category,
         substrate,
-        reagent
+        reagent,
     )
-
 
     if reaction is None:
 
-        st.error(
-            "No matching reaction was found in the database."
-        )
-
+        st.error("No matching reaction found.")
 
     else:
 
         result = format_prediction(reaction)
 
-        st.success(
-            "Reaction Found!"
-        )
+        st.success("Prediction Complete")
 
+        st.markdown("---")
 
-        st.divider()
+        st.subheader("🧪 Major Product")
+        st.write(result["Major Product"])
 
+        st.subheader("📖 Reaction Name")
+        st.write(result["Reaction Name"])
 
-        st.subheader("Prediction")
+        st.subheader("⚙️ Reaction Type")
+        st.write(result["Reaction Type"])
 
+        st.subheader("🔬 Mechanism Summary")
+        st.write(result["Mechanism Summary"])
 
-        st.write("### 🧪 Major Product")
-        st.write(
-            result["Major Product"]
-        )
+        st.subheader("📍 Regioselectivity")
+        st.write(result["Regioselectivity"])
 
+        st.subheader("🧬 Stereochemistry")
+        st.write(result["Stereochemistry"])
 
-        st.write("### 📖 Reaction Name")
-        st.write(
-            result["Reaction Name"]
-        )
+        st.subheader("🔄 Rearrangement")
+        st.write(result["Rearrangement"])
 
-
-        st.write("### ⚙️ Reaction Type")
-        st.write(
-            result["Reaction Type"]
-        )
-
-
-        st.write("### 🔬 Mechanism Summary")
-        st.write(
-            result["Mechanism Summary"]
-        )
-
-
-        st.write("### 📍 Regioselectivity")
-        st.write(
-            result["Regioselectivity"]
-        )
-
-
-        st.write("### 🧭 Stereochemistry")
-        st.write(
-            result["Stereochemistry"]
-        )
-
-
-        st.write("### 🔄 Rearrangement")
-        st.write(
-            result["Rearrangement"]
-        )
-
-
-        st.write("### 🎓 Common Exam Tips")
-
-        st.info(
-            result["Common Exam Tips"]
-        )
+        st.subheader("🎓 Common Exam Tips")
+        st.info(result["Common Exam Tips"])
