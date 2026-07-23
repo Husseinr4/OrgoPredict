@@ -80,21 +80,79 @@ for exams.
 """
     )
 
-    st.markdown("### Features")
+# --------------------------------------------------
+# Features Navigation
+# --------------------------------------------------
 
-    st.markdown("""
-- 🔬 Predict reaction products
+st.subheader("✨ Features")
 
-- 📚 Reaction library
+col1, col2, col3 = st.columns(3)
 
-- 🔍 Search by reagent
 
-- 🧠 Quiz mode
+with col1:
 
-- ⚡ Fast JSON prediction engine
+    if st.button(
+        "🔬 Predict reaction products",
+        use_container_width=True
+    ):
+        st.switch_page(
+            "pages/predictor.py"
+        )
 
-- 📈 Continuously expanding reaction database
-""")
+
+with col2:
+
+    if st.button(
+        "📚 Reaction library",
+        use_container_width=True
+    ):
+        st.switch_page(
+            "pages/reaction_library.py"
+        )
+
+
+with col3:
+
+    if st.button(
+        "🔍 Search by reagent",
+        use_container_width=True
+    ):
+        st.switch_page(
+            "pages/search.py"
+        )
+
+
+col4, col5, col6 = st.columns(3)
+
+
+with col4:
+
+    if st.button(
+        "🧠 Quiz mode",
+        use_container_width=True
+    ):
+        st.switch_page(
+            "pages/quiz.py"
+        )
+
+
+with col5:
+
+    st.button(
+        "⚡ Fast JSON prediction engine",
+        use_container_width=True,
+        disabled=True
+    )
+
+
+with col6:
+
+    st.button(
+        "📈 Continuously expanding reaction database",
+        use_container_width=True,
+        disabled=True
+    )
+
 
 with right:
 
